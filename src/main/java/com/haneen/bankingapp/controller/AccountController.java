@@ -60,4 +60,10 @@ public class AccountController {
         accountService.deleteAccount(id);
         return ResponseEntity.ok("Account has been deleted successfully!");
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestBody AccountDto updatedAccount){
+        AccountDto accountDto = accountService.updateAccount(id,updatedAccount);
+        return ResponseEntity.ok(accountDto);
+    }
 }
