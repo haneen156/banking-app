@@ -2,6 +2,7 @@ package com.haneen.bankingapp.controller;
 
 import com.haneen.bankingapp.dto.AccountDto;
 import com.haneen.bankingapp.service.AccountService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "Accounts", description = "Account Management APIs")
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
