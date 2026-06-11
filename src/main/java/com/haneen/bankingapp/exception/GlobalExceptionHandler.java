@@ -2,11 +2,13 @@ package com.haneen.bankingapp.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -22,6 +24,25 @@ public class GlobalExceptionHandler {
 
         );
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
+    //for handling validation invalid requests
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ValidationErrorDetails> handleValidationException( MethodArgumentNotValidException exception, WebRequest webRequest){
+        HashMap<String, String> errors = new HashMap<>();
+        exception.getBindingResult().getFieldErrors().forEach((error) -> {
+                    errors.put(
+                            error.getField(),
+                            error.getDefaultMessage()
+                    );
+                });
+        ValidationErrorDetails errorDetails = new ValidationErrorDetails(
+                LocalDateTime.now(),
+                webRequest.getDescription(false),
+                "VALIDATION_ERROR",
+                errors
+        );
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
     //handle generic exceptions
