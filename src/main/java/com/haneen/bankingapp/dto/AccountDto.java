@@ -42,5 +42,5 @@ package com.haneen.bankingapp.dto;
 //}
 public record AccountDto(Long id,
                          String accountHolderName,
-                         double balance){
+                         Double balance){
 }

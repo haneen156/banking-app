@@ -1,8 +1,9 @@
 package com.haneen.bankingapp.controller;
 
-import com.haneen.bankingapp.dto.AccountDto;
+import com.haneen.bankingapp.dto.*;
 import com.haneen.bankingapp.service.AccountService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +24,9 @@ public class AccountController {
 
     //ADD new Account
     @PostMapping
-    public ResponseEntity<AccountDto> addAccount(@RequestBody AccountDto accountDto){
-        return new ResponseEntity<>(accountService.createAccount(accountDto), HttpStatus.CREATED);
+    public ResponseEntity<AccountDto> addAccount( @Valid @RequestBody CreateAccountRequest request){
+        AccountDto accountDto = accountService.createAccount(request);
+        return new ResponseEntity<>(accountDto,HttpStatus.CREATED);
     }
 
     //find account by id - get
@@ -43,17 +45,15 @@ public class AccountController {
 
     //deposit (put) money into account
     @PutMapping("/{id}/deposit")
-    public ResponseEntity<AccountDto> deposit(@PathVariable Long id, @RequestBody Map<String,Double> request){
-        Double amount = request.get("amount");
-        AccountDto accountDto = accountService.deposit(id,amount);
+    public ResponseEntity<AccountDto> deposit(@PathVariable Long id, @RequestBody DepositRequest request){
+        AccountDto accountDto = accountService.deposit(id,request.amount());
         return ResponseEntity.ok(accountDto);
     }
 
     //withdrew (take) money from account
     @PutMapping("/{id}/withdraw")
-    public ResponseEntity<AccountDto> withdraw(@PathVariable Long id, @RequestBody Map<String,Double> request){
-        Double amount = request.get("amount");
-        AccountDto accountDto = accountService.withdraw(id,amount);
+    public ResponseEntity<AccountDto> withdraw(@PathVariable Long id, @RequestBody WithdrawRequest request){
+        AccountDto accountDto = accountService.withdraw(id,request.amount());
         return ResponseEntity.ok(accountDto);
     }
 

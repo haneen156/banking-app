@@ -1,6 +1,7 @@
 package com.haneen.bankingapp.service.impl;
 
 import com.haneen.bankingapp.dto.AccountDto;
+import com.haneen.bankingapp.dto.CreateAccountRequest;
 import com.haneen.bankingapp.entity.Account;
 import com.haneen.bankingapp.exception.AccountException;
 import com.haneen.bankingapp.mapper.AccountMapper;
@@ -20,8 +21,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDto createAccount(AccountDto accountDto) {
-        Account account = AccountMapper.mapToAccount(accountDto);
+    public AccountDto createAccount(CreateAccountRequest request) {
+        Account account = AccountMapper.mapToAccount(request);
         Account savedAccount = accountRepository.save(account);
         return AccountMapper.mapToAccountDto(savedAccount);
     }

@@ -1,14 +1,15 @@
 package com.haneen.bankingapp.mapper;
 
 import com.haneen.bankingapp.dto.AccountDto;
+import com.haneen.bankingapp.dto.CreateAccountRequest;
 import com.haneen.bankingapp.entity.Account;
 
 public class AccountMapper {
 
-    public static Account mapToAccount(AccountDto accountDto){
+    public static Account mapToAccount(CreateAccountRequest request){
         Account account = new Account(
-               accountDto.accountHolderName(),
-               accountDto.balance()
+                request.accountHolderName(),
+                request.initialBalance()
         );
         return account;
     }
