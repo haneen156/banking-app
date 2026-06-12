@@ -26,6 +26,32 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
+    //handle specific exceptions - DepositLimitExceededException
+    @ExceptionHandler(DepositLimitExceededException.class)
+    public ResponseEntity<ErrorDetails> handleDepositLimitExceededException(DepositLimitExceededException exception, WebRequest webRequest){
+        ErrorDetails errorDetails = new ErrorDetails(
+                LocalDateTime.now(),
+                exception.getMessage(),
+                webRequest.getDescription(false),
+                "DEPOSIT_LIMIT_EXCEEDED"
+
+        );
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    //handle specific exceptions - InsufficientFundsException
+    @ExceptionHandler(InsufficientFundsException.class)
+    public ResponseEntity<ErrorDetails> handleWithdrawInsufficientFundException(InsufficientFundsException exception, WebRequest webRequest){
+        ErrorDetails errorDetails = new ErrorDetails(
+                LocalDateTime.now(),
+                exception.getMessage(),
+                webRequest.getDescription(false),
+                "INSUFFICIENT_FUNDS"
+
+        );
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
     //for handling validation invalid requests
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorDetails> handleValidationException( MethodArgumentNotValidException exception, WebRequest webRequest){

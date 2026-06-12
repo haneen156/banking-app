@@ -45,14 +45,14 @@ public class AccountController {
 
     //deposit (put) money into account
     @PutMapping("/{id}/deposit")
-    public ResponseEntity<AccountDto> deposit(@PathVariable Long id, @RequestBody DepositRequest request){
+    public ResponseEntity<AccountDto> deposit(@PathVariable Long id, @Valid @RequestBody DepositRequest request){
         AccountDto accountDto = accountService.deposit(id,request.amount());
         return ResponseEntity.ok(accountDto);
     }
 
     //withdrew (take) money from account
     @PutMapping("/{id}/withdraw")
-    public ResponseEntity<AccountDto> withdraw(@PathVariable Long id, @RequestBody WithdrawRequest request){
+    public ResponseEntity<AccountDto> withdraw(@PathVariable Long id, @Valid @RequestBody WithdrawRequest request){
         AccountDto accountDto = accountService.withdraw(id,request.amount());
         return ResponseEntity.ok(accountDto);
     }
